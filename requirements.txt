@@ -1,0 +1,2 @@
+# Python Dependencies for SIH 2024 Audit Tool
+PyYAML==6.0.1

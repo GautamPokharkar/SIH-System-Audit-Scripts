@@ -1,0 +1,43 @@
+---
+# SIH 2024 - Linux CIS Benchmark Mock Rules
+schema_version: "1.0"
+target_os: "linux"
+
+rules:
+  - rule_id: "CIS_1.1.1.1"
+    title: "Ensure mounting of cramfs filesystems is disabled"
+    description: "cramfs is a compressed read-only file system. Disabling it protects against local attack vectors."
+    severity: "High"
+    audit_type: "shell"
+    check_command: "modprobe -n -v cramfs"
+    expected_output: "install /bin/true"
+    remediation: "Create a file in /etc/modprobe.d/ containing 'install cramfs /bin/true'"
+
+  - rule_id: "CIS_5.2.2"
+    title: "Ensure permissions on /etc/shadow are configured correctly"
+    description: "The /etc/shadow file contains user password hashes and must be protected."
+    severity: "Critical"
+    audit_type: "file_permission"
+    target_path: "/etc/shadow"
+    expected_permissions: "0000"
+    expected_owner: "root"
+    expected_group: "root"
+    remediation: "Run: chown root:root /etc/shadow && chmod 0000 /etc/shadow"
+
+  - rule_id: "CIS_5.2.4"
+    title: "Ensure SSH root login is disabled"
+    description: "Disabling root login via SSH enforces the use of standard accounts and sudo."
+    severity: "High"
+    audit_type: "file_content"
+    target_path: "/etc/ssh/sshd_config"
+    search_string: "^PermitRootLogin"
+    expected_value: "no"
+    remediation: "Edit /etc/ssh/sshd_config and set PermitRootLogin to no, then restart sshd."
+
+  - rule_id: "CIS_4.1.1"
+    title: "Ensure UFW is installed"
+    severity: "Medium"
+    audit_type: "shell"
+    supported_distros: ["ubuntu", "debian"]
+    check_command: "dpkg -l | grep ufw"
+    expected_output: "ii  ufw"

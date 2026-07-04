@@ -1,0 +1,37 @@
+---
+# SIH 2024 - Windows 11 CIS Benchmark Mock Rules
+schema_version: "1.0"
+target_os: "windows"
+
+rules:
+  - rule_id: "CIS_2.3.1.1"
+    title: "Ensure 'Accounts: Guest account status' is set to 'Disabled'"
+    description: "The built-in Guest account should be disabled to prevent unauthenticated access."
+    severity: "High"
+    audit_type: "registry"
+    registry_hive: "HKEY_LOCAL_MACHINE"
+    registry_path: "SAM\\SAM\\Domains\\Account\\Users\\Names\\Guest"
+    key_name: "Enabled"
+    expected_value: 0
+    remediation: "Disable the guest account in the Local Security Policy (secpol.msc)."
+
+  - rule_id: "CIS_1.1.1"
+    title: "Ensure 'Enforce password history' is set to '24 or more password(s)'"
+    description: "Prevents users from reusing recent passwords."
+    severity: "Medium"
+    audit_type: "powershell"
+    check_command: "(Get-ADDefaultDomainPasswordPolicy).PasswordHistoryCount"
+    comparison_operator: ">="
+    expected_value: 24
+    remediation: "Update Password Policy via Group Policy Management."
+
+  - rule_id: "CIS_18.8.21.2"
+    title: "Ensure 'Turn off Toast notifications on the lock screen' is set to 'Enabled'"
+    description: "Prevents sensitive information from appearing on a locked machine."
+    severity: "Low"
+    audit_type: "registry"
+    registry_hive: "HKEY_CURRENT_USER"
+    registry_path: "SOFTWARE\\Policies\\Microsoft\\Windows\\CurrentVersion\\PushNotifications"
+    key_name: "NoToastApplicationNotificationOnLockScreen"
+    expected_value: 1
+    remediation: "Enable this policy under User Configuration > Administrative Templates > Start Menu and Taskbar."

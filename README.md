@@ -49,6 +49,10 @@ Project-OS-Audit/
 ├── requirements.txt          # Python external dependency manifests
 └── README.md                 # Project documentation
 ```
-
+## 🛠️ Future Roadmap
+To transition this from a hackathon prototype to an enterprise-ready product, the next development phases include:
+- [ ] **Role-Based Access Control (RBAC):** Implementing secure login for administrators to restrict who can trigger the "Auto-Remediation" fixes.
+- [ ] **Agent-Server Architecture:** Converting the standalone tool into a lightweight agent that reports back to a centralized web-based dashboard.
+- [ ] **Cloud Configuration Scanning:** Expanding the YAML rule schema to audit AWS, Azure, and GCP IAM policies alongside local OS configurations.
 ---
 
